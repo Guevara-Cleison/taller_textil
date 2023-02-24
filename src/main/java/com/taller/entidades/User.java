@@ -12,7 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -40,10 +39,6 @@ public class User {
 	@Column
 	private String password;
 	
-	//no_se_crea_en_la_bd
-	@Transient
-	private String confirmPassword;
-	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "tb_user_roles", 
 		joinColumns = @JoinColumn(name = "user_id"),
@@ -53,8 +48,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", email=" + email
-				+ ", username=" + username + ", password=" + password + ", confirmPassword=" + confirmPassword
-				+ ", roles=" + roles + "]";
+				+ ", username=" + username + ", password=" + password + ", roles=" + roles + "]";
 	}
 
 	public User() {
@@ -110,14 +104,6 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getConfirmPassword() {
-		return confirmPassword;
-	}
-
-	public void setConfirmPassword(String confirmPassword) {
-		this.confirmPassword = confirmPassword;
 	}
 
 	public Set<Role> getRoles() {

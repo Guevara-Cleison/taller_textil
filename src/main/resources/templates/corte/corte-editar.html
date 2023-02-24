@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout/layout :: head">
+</head>
+
+<body class="sb-nav-fixed">
+
+   <nav th:replace="layout/layout :: navbar"></nav>
+
+   <div id="layoutSidenav">
+
+      <div th:replace="layout/layout :: layoutSidenav_nav">
+      </div>
+      <!-- Inicio Contenido -->
+
+      <div id="layoutSidenav_content">
+
+         <!-- inicio main -->
+         <main>
+
+            <div id="content-page" class="content-page">
+               <div class="container-fluid">
+                  <div class="row">
+                     <div class="col-lg-9">
+                        <div class="iq-card">
+                           <div class="iq-card-header d-flex justify-content-between">
+                              <div class="iq-header-title">
+                                 <h4 class="card-title">Editar Empresa</h4>
+                              </div>
+                           </div>
+                           <div class="iq-card-body">
+                              <div class="new-user-info">
+                                 <form th:action="@{/corte/guardar/{id}(id=${corte.idCorte})}" th:object="${corte}"
+                                    method="POST">
+                                    <div class="row">
+                                       <div class="form-group col-md-6">
+                                          <label for="inputState">EMPRESA:</label>
+                                          <select id="inputState" class="form-control" th:field="*{idEmpresa}">
+                                             <option value="-1" selected>Seleccione...</option>
+                                             <option th:each="e : ${empresas}" th:value="${e.idEmpresa}"
+                                                th:text="${e.descripcion}">
+                                             </option>
+                                          </select>
+                                       </div>
+                                       <br>
+                                       <div class="form-group col-md-6">
+                                          <label for="lname">ORDEN DE PRODUCCION:</label>
+                                          <input type="number" th:field="*{op}"
+                                             th:errorclass="'form-control alert-danger'" class="form-control"
+                                             placeholder="ORDEN DE PRODUCCION" />
+                                       </div>
+                                       <br>
+                                       <div class="form-group col-md-6">
+                                          <label for="lname">OS:</label>
+                                          <input type="number" th:field="*{os}"
+                                             th:errorclass="'form-control alert-danger'" class="form-control"
+                                             placeholder="ORDEN DE SERVICIO" />
+                                       </div>
+                                       <br>
+                                       <div class="form-group col-md-6">
+                                          <label for="lname">MODELO:</label>
+                                          <input type="text" th:field="*{modelo}"
+                                             th:errorclass="'form-control alert-danger'" class="form-control"
+                                             placeholder="MODELO DEL CORTE" />
+                                       </div>
+                                       <div class="form-group col-md-6">
+                                          <label for="lname">CANTIDAD:</label>
+                                          <input type="number" th:field="*{cantidad}"
+                                             th:errorclass="'form-control alert-danger'" class="form-control"
+                                             placeholder="CANTIDAD DEL CORTE" />
+                                       </div>
+                                       <div class="form-group col-md-6">
+                                          <label for="lname">PRECIO:</label>
+                                          <input type="number" step="any" th:field="*{precio}"
+                                             th:errorclass="'form-control alert-danger'" class="form-control"
+                                             placeholder="PRECIO UNITARIO" />
+                                       </div>
+                                       <div class="form-group col-md-6">
+                                          <label for="lname">NUMERO DE GUIA:</label>
+                                          <input type="text" th:field="*{numGui}"
+                                             th:errorclass="'form-control alert-danger'" class="form-control"
+                                             placeholder="NUMEROS DE GUIAS RELACIONADAS" />
+                                       </div>
+                                       <div class="form-group col-md-6">
+                                          <label for="lname">FECHA DE ENTREGA:</label>
+                                          <input type="date" th:field="*{fecEntrega}"
+                                             th:errorclass="'form-control alert-danger'" class="form-control"
+                                             placeholder="FECHA DE ENTREGA DEL CORTE" />
+                                       </div>
+                                    </div>
+                                    <br>
+                                    <button type="submit" class="btn btn-primary">GUARDAR</button>
+                                    <a type="button" th:href="@{/corte/listar}" class="btn btn-success">Volver</a>
+                                 </form>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+         </main>
+         <!-- fin main -->
+
+         <footer th:replace="layout/layout :: footer"></footer>
+      </div>
+
+   </div>
+
+   <th:block th:replace="layout/layout :: script"></th:block>
+
+</body>
+
+</html>

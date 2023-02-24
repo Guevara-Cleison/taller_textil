@@ -5,7 +5,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -16,13 +15,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.lowagie.text.DocumentException;
 import com.taller.entidades.Empresa;
@@ -32,71 +30,61 @@ import com.taller.util.reportes.EmpresaExporterExcel;
 import com.taller.util.reportes.EmpresaExporterPDF;
 
 @Controller
+@RequestMapping(value = "/empresa")
 public class EmpresaController {
 	
 	@Autowired
 	private EmpresaServicie empresaService;
 	
-	@GetMapping({"/","/listar",""})
+	@GetMapping({"/listar",""})
 	public String listarEmpresa(@RequestParam(name = "page", defaultValue = "0")int page,Model modelo) {
 		Pageable pageRequest = PageRequest.of(page, 5);
-		Page<Empresa> empresas = empresaService.findAll(pageRequest);
-		PageRender<Empresa> pageRender = new PageRender<>("/listar", empresas);
+		Page<Empresa> empresas = empresaService.listaEmpresa(pageRequest);
+		PageRender<Empresa> pageRender = new PageRender<>("/empresa/listar", empresas);
 		
-		modelo.addAttribute("titulo", "Listado de Empresas");
 		modelo.addAttribute("empresas", empresas);
 		modelo.addAttribute("page", pageRender);
 		
-		return "listarEmpresa";
+		return "empresa/empresa-lista";
 	}
 	
-	@GetMapping({"/form"})
-	public String mostrarFormularoRegistroEmpresa(Map<String, Object> modelo) {
+	@GetMapping("/nuevo")
+	public String mostrarFormularoRegistroEmpresa(Model modelo) {
 		Empresa empresa = new Empresa();
-		modelo.put("empresa", empresa);
-		modelo.put("titulo", "Registro de empsesas");
-		return "RegistrarEmpresa";
+		modelo.addAttribute("empresa", empresa);
+		return "empresa/empresa-nuevo";
 	}
 	
-	@PostMapping("/form")
-	public String guardarEmpresa(@Valid Empresa empresa, BindingResult result, Model modelo, RedirectAttributes flash, SessionStatus status) {
-		if(result.hasErrors()) {
-			modelo.addAttribute("titulo", "Registro de empresa");
-			return "RegistrarEmpresa";
-		}
-		
-		String mensaje = (empresa.getIdEmpresa() != null) ? "La empresa ha sido editado con exito" : "Empresa registrada con exito";
-		empresaService.save(empresa);
-		status.setComplete();
-		flash.addFlashAttribute("success", mensaje);
-		return "redirect:/listar";
+	@PostMapping("/guardar")
+	public String guardarEmpresa(@Valid @ModelAttribute("empresa") Empresa empresa) {
+		empresaService.guardar(empresa);
+		return "redirect:/empresa/listar";
 	}
 	
-	@GetMapping("/form/{id}")
-	public String editarEmpresa(@PathVariable(value = "id") Long id, Map<String, Object> modelo, RedirectAttributes flash) {
-		Empresa empresa = null;
-		if(id > 0) {
-			empresa = empresaService.findOne(id);
-			if(empresa == null) {
-				flash.addFlashAttribute("error", "La empresa no existe en la base de datos");
-				return "redirect:/listar";
-			}
-		}else {
-			flash.addAttribute("error", "El ID de la empresa no puede ser cero");
-		}
+	@GetMapping("/editar/{id}") 
+	public String mostrarFormularoEditarEmpresa(@PathVariable(value = "id") Long id, Model modelo) {
+		modelo.addAttribute("empresa",empresaService.buscarXid(id));
+		return "empresa/empresa-editar";
+	}
+	
+	@PostMapping("/guardar/{id}")
+	public String actualizarEmpresa(@PathVariable(value = "id") Long id ,@Valid @ModelAttribute("empresa") Empresa empresa) {
+		Empresa empresaExistente = empresaService.buscarXid(id);
+		empresaExistente.setIdEmpresa(id);
+		empresaExistente.setDescripcion(empresa.getDescripcion());
+		empresaExistente.setEmail(empresa.getEmail());
+		empresaExistente.setDireccion(empresa.getDireccion());
 		
-		modelo.put("empresa", empresa);
-		modelo.put("titulo", "Edicion de empresa");
-		return "RegistrarEmpresa";
+		empresaService.actualizar(empresaExistente);
+		return "redirect:/empresa/listar";
 	}
 	
 	@GetMapping("eliminar/{id}")
-	public String eliminarEmpresa(@PathVariable(value = "id") Long id, RedirectAttributes flash) {
+	public String eliminarEmpresa(@PathVariable(value = "id") Long id) {
 		if(id > 0) {
-			empresaService.delete(id);
-			flash.addFlashAttribute("succes", "Empresa eliminada con exito");
+			empresaService.eliminar(id);
 		}
-		return "redirect:/listar";
+		return "redirect:/empresa/listar";
 	}
 	
 	//exportar en pdf
@@ -113,7 +101,7 @@ public class EmpresaController {
 		
 		response.setHeader(cabecera, valor);
 		
-		List<Empresa> empresas = empresaService.findAll();
+		List<Empresa> empresas = empresaService.listaEmpresa();
 		
 		EmpresaExporterPDF exporter = new EmpresaExporterPDF(empresas);
 		exporter.exportar(response);
@@ -134,7 +122,7 @@ public class EmpresaController {
 		
 		response.setHeader(cabecera, valor);
 		
-		List<Empresa> empresas = empresaService.findAll();
+		List<Empresa> empresas = empresaService.listaEmpresa();
 		
 		EmpresaExporterExcel exporter = new EmpresaExporterExcel(empresas);
 		exporter.exportar(response);

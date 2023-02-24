@@ -19,31 +19,37 @@ public class EmpresaServiceImpl implements EmpresaServicie{
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Empresa> findAll() {
+	public List<Empresa> listaEmpresa() {
 		return (List<Empresa>) empresarepo.findAll();
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public Page<Empresa> findAll(Pageable pageable) {
+	public Page<Empresa> listaEmpresa(Pageable pageable) {
 		return empresarepo.findAll(pageable);
 	}
 
 	@Override
 	@Transactional
-	public void save(Empresa empresa) {
+	public void guardar(Empresa empresa) {
 		empresarepo.save(empresa);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public Empresa findOne(Long id) {
+	public Empresa buscarXid(Long id) {
 		return empresarepo.findById(id).orElse(null);
 	}
-
+	
 	@Override
 	@Transactional
-	public void delete(Long id) {
+	public void actualizar(Empresa empresa) {
+		empresarepo.save(empresa);
+	}
+	
+	@Override
+	@Transactional
+	public void eliminar(Long id) {
 		empresarepo.deleteById(id);
 	}
 

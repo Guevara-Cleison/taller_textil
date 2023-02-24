@@ -28,6 +28,9 @@ public class Role {
 	public String toString() {
 		return "Role [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + "]";
 	}
+	
+	public Role() {
+	}
 
 	public Role(Long id, String nombre, String descripcion) {
 		this.id = id;

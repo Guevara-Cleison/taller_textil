@@ -38,10 +38,10 @@ public class Corte {
 	private int cantidad;
 
 	@NotNull
-	private int precio;
+	private double precio;
 
 	@NotNull
-	private int numGui;
+	private String numGui;
 
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -50,7 +50,7 @@ public class Corte {
 	public Corte() {
 	}
 
-	public Corte(int idCorte, Long idEmpresa, int op, int os, String modelo, int cantidad, int precio, int numGui,
+	public Corte(int idCorte, Long idEmpresa, int op, int os, String modelo, int cantidad, double precio, String numGui,
 			Date fecEntrega) {
 		this.idCorte = idCorte;
 		this.idEmpresa = idEmpresa;
@@ -111,19 +111,19 @@ public class Corte {
 		this.cantidad = cantidad;
 	}
 
-	public int getPrecio() {
+	public double getPrecio() {
 		return precio;
 	}
 
-	public void setPrecio(int precio) {
+	public void setPrecio(double precio) {
 		this.precio = precio;
 	}
 
-	public int getNumGui() {
+	public String getNumGui() {
 		return numGui;
 	}
 
-	public void setNumGui(int numGui) {
+	public void setNumGui(String numGui) {
 		this.numGui = numGui;
 	}
 

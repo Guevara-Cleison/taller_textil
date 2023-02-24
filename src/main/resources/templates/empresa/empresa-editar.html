@@ -31,33 +31,31 @@
                                    </div>
                                    <div class="iq-card-body">
                                       <div class="new-user-info">
-                                         <form th:action="@{/form}" th:object="${empresa}" method="post">
+                                         <form th:action="@{/empresa/guardar/{id}(id=${empresa.idEmpresa})}" th:object="${empresa}" method="POST">
                                             <div class="row">
-                                               <div class="form-group col-md-6">
+                                             <div class="form-group col-md-6">
                                                 <label for="lname">RUC:</label>
-                                                  <input type="text" th:field="*{idEmpresa}" th:value="${empresa.idEmpresa}" th:errorclass="'form-control alert-danger'" class="form-control"/>
-                                                  <small class="form-text text-danger" th:if="${#fields.hasErrors('idEmpresa')}" th:errors="*{idEmpresa}"></small>
+                                                  <input type="number" th:field="*{idEmpresa}" th:value="${empresa.idEmpresa}"  th:errorclass="'form-control alert-danger'" class="form-control" readonly />
                                                </div>
+                                               <br>
                                                <div class="form-group col-md-6">
                                                   <label for="lname">NOMBRE:</label>
                                                   <input type="text" th:field="*{descripcion}" th:errorclass="'form-control alert-danger'" class="form-control" placeholder="NOMBRE DE LA EMPRESA"/>
-                                                  <small class="form-text text-danger" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></small>
                                                </div>
                                                <br>
                                                <div class="form-group col-md-12">
                                                   <label for="altconno">DIRECCION:</label>
                                                   <input type="text" th:field="*{direccion}" th:errorclass="'form-control alert-danger'" class="form-control" placeholder="UBICACION DE LA EMPRESA"/>
-                                                  <small class="form-text text-danger" th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></small>
                                                </div>
                                                <br>
                                                <div class="form-group col-md-6">
                                                   <label for="email">CORREO:</label>
                                                   <input type="email" th:field="*{email}" th:errorclass="'form-control alert-danger'" class="form-control" placeholder="CORREO ELECTRONICO DE LA EMPRESA"/>
-                                                  <small class="form-text text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
                                                </div>
                                             </div>
                                             <br>
                                             <button type="submit" class="btn btn-primary">GUARDAR</button>
+                                            <a type="button" th:href="@{/empresa/listar}" class="btn btn-success">Volver</a>
                                          </form>
                                       </div>
                                    </div>

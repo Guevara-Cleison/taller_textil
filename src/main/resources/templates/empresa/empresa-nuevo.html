@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout/layout :: head">
+</head>
+
+<body class="sb-nav-fixed">
+
+    <nav th:replace="layout/layout :: navbar"></nav>
+
+    <div id="layoutSidenav">
+
+        <div th:replace="layout/layout :: layoutSidenav_nav">
+        </div>
+        <!-- Inicio Contenido -->
+
+        <div id="layoutSidenav_content">
+
+            <!-- inicio main -->
+            <main>
+                
+                <div id="content-page" class="content-page">
+                    <div class="container-fluid">
+                       <div class="row">
+                          <div class="col-lg-9">
+                                <div class="iq-card">
+                                   <div class="iq-card-header d-flex justify-content-between">
+                                      <div class="iq-header-title">
+                                         <h4 class="card-title">Nueva Empresa</h4>
+                                      </div>
+                                   </div>
+                                   <div class="iq-card-body">
+                                      <div class="new-user-info">
+                                         <form th:action="@{/empresa/guardar}" th:object="${empresa}" method="POST">
+                                            <div class="row">
+                                               <div class="form-group col-md-6">
+                                                <label for="lname">RUC:</label>
+                                                  <input type="text" th:field="*{idEmpresa}" th:errorclass="'form-control alert-danger'" class="form-control" placeholder="INGRESE NUMERO DE RUC"/>
+                                               </div>
+                                               <br>
+                                               <div class="form-group col-md-6">
+                                                  <label for="lname">NOMBRE:</label>
+                                                  <input type="text" th:field="*{descripcion}" th:errorclass="'form-control alert-danger'" class="form-control" placeholder="NOMBRE DE LA EMPRESA"/>
+                                               </div>
+                                               <br>
+                                               <div class="form-group col-md-12">
+                                                  <label for="altconno">DIRECCION:</label>
+                                                  <input type="text" th:field="*{direccion}" th:errorclass="'form-control alert-danger'" class="form-control" placeholder="UBICACION DE LA EMPRESA"/>
+                                               </div>
+                                               <br>
+                                               <div class="form-group col-md-6">
+                                                  <label for="email">CORREO:</label>
+                                                  <input type="email" th:field="*{email}" th:errorclass="'form-control alert-danger'" class="form-control" placeholder="CORREO ELECTRONICO DE LA EMPRESA"/>
+                                               </div>
+                                            </div>
+                                            <br>
+                                            <button type="submit" class="btn btn-primary">GUARDAR</button>
+                                            <button type="reset" class="btn btn-secondary">Limpiar</button>
+                                             <a type="button" th:href="@{/empresa/listar}" class="btn btn-success">Volver</a>
+                                         </form>
+                                      </div>
+                                   </div>
+                                </div>
+                          </div>
+                       </div>
+                    </div>
+                 </div>
+
+            </main>
+            <!-- fin main -->
+
+            <footer th:replace="layout/layout :: footer"></footer>
+        </div>
+
+    </div>
+
+    <th:block th:replace="layout/layout :: script"></th:block>
+
+</body>
+
+</html>
