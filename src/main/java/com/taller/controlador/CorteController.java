@@ -33,6 +33,7 @@ public class CorteController {
 	@Autowired
 	private EmpresaServicie empresaService;
 	
+	
 	@GetMapping({"/listar",""})
 	public String listarCorte(@RequestParam(name = "page", defaultValue = "0")int page,Model modelo) {
 		Pageable pageRequest = PageRequest.of(page, 5);

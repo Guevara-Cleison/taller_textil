@@ -68,7 +68,7 @@
                         </div>
                         <div class="card-body">
                             <h4 class="card-title">
-                                <a th:href="@{/usuario/nuevo}" class="btn btn-primary">Agregar usuario</a>
+                                <a th:href="@{/usuario/nuevo}" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="btn btn-primary">Agregar usuario</a>
                                 <a th:href="@{/usuario/exportarPDF}" class="btn btn-secondary">Exportar a PDF</a>
                                 <a th:href="@{/usuario/exportarExcel}" class="btn btn-success">Exportar a Excel</a>
                             </h4>
@@ -90,8 +90,7 @@
                                         <td th:text="${u.apellido}"></td>
                                         <td th:text="${u.email}"></td>
                                         <td th:text="${u.username}"></td>
-                                        <td><a class="btn btn-warning btn-sm" th:href="@{/usuario/editar/} + ${u.id}">Editar</a>
-                                            <a class="btn btn-danger btn-sm" th:href="@{/usuario/eliminar/} + ${u.id}" onclick="return confirm('¿Estas seguro de eliminar?')">Eliminar</a>
+                                        <td><a class="btn btn-warning btn-sm" th:href="@{/usuario/editar/} + ${u.id}" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Editar</a>
                                         </td>
                                     </tr>
                                 </tbody>

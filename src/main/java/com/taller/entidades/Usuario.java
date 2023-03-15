@@ -1,7 +1,8 @@
 package com.taller.entidades;
 
-import java.util.Set;
+import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,15 +14,13 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "tb_usuario")
-public class User {
+public class Usuario {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-	@GenericGenerator(name = "native", strategy = "native")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column
@@ -39,23 +38,40 @@ public class User {
 	@Column
 	private String password;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	@JoinTable(name = "tb_user_roles", 
-		joinColumns = @JoinColumn(name = "user_id"),
-		inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Set<Role> roles;
+		joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+		inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+	private Collection<Role> roles;
 	
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", email=" + email
+		return "Usuario [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", email=" + email
 				+ ", username=" + username + ", password=" + password + ", roles=" + roles + "]";
 	}
 
-	public User() {
+	public Usuario() {
 	}
 
-	public User(Long id) {
+	public Usuario(Long id, String nombre, String apellido, String email, String username, String password,
+			Collection<Role> roles) {
 		this.id = id;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.email = email;
+		this.username = username;
+		this.password = password;
+		this.roles = roles;
+	}
+	
+	public Usuario(String nombre, String apellido, String email, String username, String password, 
+			Collection<Role> roles) {
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.email = email;
+		this.username = username;
+		this.password = password;
+		this.roles = roles;
 	}
 
 	public Long getId() {
@@ -106,11 +122,11 @@ public class User {
 		this.password = password;
 	}
 
-	public Set<Role> getRoles() {
+	public Collection<Role> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Set<Role> roles) {
+	public void setRoles(Collection<Role> roles) {
 		this.roles = roles;
 	}
 	

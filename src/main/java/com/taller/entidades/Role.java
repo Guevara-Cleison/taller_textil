@@ -7,35 +7,33 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "tb_rol")
 public class Role {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-	@GenericGenerator(name = "native", strategy = "native")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column
 	private String nombre;
 	
-	@Column
-	private String descripcion;
-	
 	@Override
 	public String toString() {
-		return "Role [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + "]";
+		return "Role [id=" + id + ", nombre=" + nombre + "]";
 	}
 	
 	public Role() {
 	}
 
-	public Role(Long id, String nombre, String descripcion) {
+	public Role(Long id, String nombre) {
 		this.id = id;
 		this.nombre = nombre;
-		this.descripcion = descripcion;
+	}
+	
+	public Role(String nombre) {
+		this.nombre = nombre;
 	}
 
 	public Long getId() {
@@ -52,14 +50,6 @@ public class Role {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
 	}
 	
 	

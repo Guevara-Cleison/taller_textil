@@ -18,7 +18,7 @@
 
     <nav th:fragment="navbar" class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="/">Creaciones GRD</a>
+        <a class="navbar-brand ps-3" th:href="@{/}">Creaciones GRD</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
                 class="fas fa-bars"></i></button>
@@ -35,7 +35,7 @@
                     <li>
                         <hr class="dropdown-divider" />
                     </li>
-                    <li><a class="dropdown-item" href="#!">Logout</a></li>
+                    <li><a class="dropdown-item" sec:authorize="isAuthenticated()" th:href="@{/logout}">Cerrar Sesion</a></li>
                 </ul>
             </li>
         </ul>
@@ -57,7 +57,7 @@
                             data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" th:href="@{/usuario/listar}">Lista de Usuarios</a>
-                                <a class="nav-link" th:href="@{/usuario/nuevo}">Nuevo Usuario</a>
+                                <a th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="nav-link" th:href="@{/usuario/nuevo}">Nuevo Usuario</a>
                             </nav>
                         </div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
@@ -70,7 +70,7 @@
                             data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" th:href="@{/corte/listar}">Lista de Cortes</a>
-                                <a class="nav-link" th:href="@{/corte/nuevo}">Nuevo Corte</a>
+                                <a th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="nav-link" th:href="@{/corte/nuevo}">Nuevo Corte</a>
                             </nav>
                         </div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseEmpresa"
@@ -83,14 +83,14 @@
                             data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" th:href="@{/empresa/listar}">Lista de Empresas</a>
-                                <a class="nav-link" th:href="@{/empresa/nuevo}">Nueva Empresa</a>
+                                <a th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="nav-link" th:href="@{/empresa/nuevo}">Nueva Empresa</a>
                             </nav>
                         </div>
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
                     <div class="small">Bienvenido:</div>
-                    ""nombre Usuario""
+                    <span sec:authentication="principal.username"></span>
                 </div>
             </nav>
         </div>
@@ -104,11 +104,11 @@
             <footer th:fragment="footer" class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Your Website 2022</div>
+                        <div class="text-muted">Copyright &copy; Tu sitio web 2023</div>
                         <div>
-                            <a href="#">Privacy Policy</a>
+                            <a href="#">Política de privacidad</a>
                             &middot;
-                            <a href="#">Terms &amp; Conditions</a>
+                            <a href="#">Términos y condiciones</a>
                         </div>
                     </div>
                 </div>
@@ -119,33 +119,7 @@
 
     <!-- Mensajes -->
 
-    <div class="container">
-        <div th:if="${success != null}" class="alert-primary alert-dismissible fade show">
-            [[${success}]]>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
-        </div>
-    </div>
-
-    <div class="container">
-        <div th:if="${error != null}" class="alert-danger alert-dismissible fade show">
-            [[${error}]]>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
-        </div>
-    </div>
-
-    <div class="container">
-        <div th:if="${warning != null}" class="alert-warning alert-dismissible fade show">
-            [[${warning}]]>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
-        </div>
-    </div>
-
-    <div class="container">
-        <div th:if="${info != null}" class="alert-info alert-dismissible fade show">
-            [[${info}]]>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
-        </div>
-    </div>
+    
 
     <!--  -->
 

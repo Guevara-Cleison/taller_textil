@@ -62,52 +62,7 @@
                         </div>
                     </div>
                     <div class="card mb-4">
-                        <div class="card-header">
-                            <i class="fas fa-table me-1"></i>
-                            Lista de cortes
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                <a th:href="@{/corte/nuevo}" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="btn btn-primary">Agregar corte</a>
-                                <a th:href="@{/corte/exportarPDF}" class="btn btn-secondary">Exportar a PDF</a>
-                                <a th:href="@{/corte/exportarExcel}" class="btn btn-success">Exportar a Excel</a>
-                            </h4>
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>EMPRESA</th>
-                                        <th>OP</th>
-                                        <th>OS</th>
-                                        <th>MODELO</th>
-                                        <th>CANTIDAD</th>
-                                        <th>PRECIO</th>
-                                        <th>N.GUIA</th>
-                                        <th>FEC.ENTREGA</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr th:each="c : ${cortes}">
-                                        <td th:text="${c.idCorte}"></td>
-                                        <td th:text="${c.idEmpresa}"></td>
-                                        <td th:text="${c.op}"></td>
-                                        <td th:text="${c.os}"></td>
-                                        <td th:text="${c.modelo}"></td>
-                                        <td th:text="${c.cantidad}"></td>
-                                        <td th:text="${c.precio}"></td>
-                                        <td th:text="${c.numGui}"></td>
-                                        <td th:text="${c.fecEntrega}"></td>                                      
-                                        <td><a class="btn btn-warning btn-sm" th:href="@{/corte/editar/{id}(id=${c.idCorte})}" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Editar</a>
-                                            <a class="btn btn-danger btn-sm" th:href="@{/corte/eliminar/{id}(id=${c.idCorte})}" onclick="return confirm('¿Estas seguro de eliminar?')" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Eliminar</a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <!-- paginacion -->
-                            <nav th:replace="layout/paginator-nav :: paginator"></nav>
-                            <!-- fin paginacion -->
-                        </div>
+
                     </div>
                 </div>
             </main>

@@ -68,7 +68,7 @@
                         </div>
                         <div class="card-body">
                             <h4 class="card-title">
-                                <a th:href="@{/empresa/nuevo}" class="btn btn-primary">Agregar empresa</a>
+                                <a th:href="@{/empresa/nuevo}" class="btn btn-primary" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Agregar empresa</a>
                                 <a th:href="@{/empresa/exportarPDF}" class="btn btn-secondary">Exportar a PDF</a>
                                 <a th:href="@{/empresa/exportarExcel}" class="btn btn-success">Exportar a Excel</a>
                             </h4>
@@ -88,8 +88,8 @@
                                         <td th:text="${e.descripcion}"></td>
                                         <td th:text="${e.email}"></td>
                                         <td th:text="${e.direccion}"></td>                                     
-                                        <td><a class="btn btn-warning btn-sm" th:href="@{/empresa/editar/{id}(id=${e.idEmpresa})}">Editar</a>
-                                            <a class="btn btn-danger btn-sm" th:href="@{/empresa/eliminar/{id}(id=${e.idEmpresa})}" onclick="return confirm('¿Estas seguro de eliminar?')">Eliminar</a>
+                                        <td><a class="btn btn-warning btn-sm" th:href="@{/empresa/editar/{id}(id=${e.idEmpresa})}" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Editar</a>
+                                            <a class="btn btn-danger btn-sm" th:href="@{/empresa/eliminar/{id}(id=${e.idEmpresa})}" onclick="return confirm('¿Estas seguro de eliminar?')" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Eliminar</a>
                                         </td>
                                     </tr>
                                 </tbody>

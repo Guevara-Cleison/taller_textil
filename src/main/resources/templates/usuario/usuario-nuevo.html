@@ -31,7 +31,7 @@
                            </div>
                            <div class="iq-card-body">
                               <div class="new-user-info">
-                                 <form th:action="@{/usuario/guardar}" th:object="${user}" method="post">
+                                 <form th:action="@{/usuario/guardar}" th:object="${usuario}" method="post">
                                     <div class="row">
                                        
                                        <div class="form-group col-md-6">
@@ -75,15 +75,6 @@
                                           <input type="password" th:field="*{password}"
                                              th:errorclass="'form-control alert-danger'" class="form-control"
                                              placeholder="INGRESAR UNA CONTRASEÑA SEGURA" />
-                                       </div>
-                                       <div class="form-group col-md-6">
-                                          <label for="inputState">Rol:</label>
-                                          <select id="inputState" class="form-control" th:field="*{roles}">
-                                             <option value="-1" selected>Seleccione...</option>
-                                             <option th:each="r : ${roles}" th:value="${r.id}"
-                                                th:text="${r.nombre}">
-                                             </option>
-                                          </select>
                                        </div>
                                     </div>
                                     <br>
