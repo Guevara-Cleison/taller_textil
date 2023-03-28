@@ -1,24 +1,22 @@
 package com.taller.controlador;
 
-import java.util.List;
-
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.taller.entidades.Corte;
-import com.taller.entidades.Empresa;
 import com.taller.servicios.CorteService;
 import com.taller.servicios.EmpresaServicie;
 import com.taller.util.paginacion.PageRender;
@@ -40,10 +38,7 @@ public class CorteController {
 		Page<Corte> cortes = corteService.listaCorte(pageRequest);
 		PageRender<Corte> pageRender = new PageRender<>("/corte/listar", cortes);
 		
-		List<Empresa> empresas = empresaService.listaEmpresa();
-		
 		modelo.addAttribute("cortes", cortes);
-		modelo.addAttribute("empresas", empresas);
 		modelo.addAttribute("page", pageRender);
 		
 		return "corte/corte-lista";
@@ -58,8 +53,13 @@ public class CorteController {
 	}
 	
 	@PostMapping("/guardar")
-	public String guardarCorte(@ModelAttribute("empresa")@Valid Corte corte) {
+	public String guardarCorte(@Validated @ModelAttribute("corte") Corte corte, BindingResult bindingResult, RedirectAttributes redirect, Model modelo) {
+		if(bindingResult.hasErrors()) {
+			modelo.addAttribute("corte", corte);
+			return "corte/corte-nuevo";
+		}
 		corteService.guardar(corte);
+		redirect.addFlashAttribute("msgExito", "El corte se ha agregado correctamente");
 		return "redirect:/corte/listar";
 	}
 	
@@ -71,8 +71,12 @@ public class CorteController {
 	}
 	
 	@PostMapping("/guardar/{id}")
-	public String actualizarCorte(@PathVariable(value = "id") int id ,@ModelAttribute("corte")@Valid Corte corte) {
+	public String actualizarCorte(@PathVariable(value = "id") int id ,@Validated @ModelAttribute("corte") Corte corte, BindingResult bindingResult, RedirectAttributes redirect, Model modelo) {
 		Corte corteExistente = corteService.buscarXid(id);
+		if(bindingResult.hasErrors()) {
+			modelo.addAttribute("corte", corte);
+			return "corte/corte-editar";
+		}
 		corteExistente.setIdCorte(id);
 		corteExistente.setIdEmpresa(corte.getIdEmpresa());
 		corteExistente.setOp(corte.getOp());
@@ -84,13 +88,15 @@ public class CorteController {
 		corteExistente.setFecEntrega(corte.getFecEntrega());
 		
 		corteService.actualizar(corteExistente);
+		redirect.addFlashAttribute("msgExito", "El corte se ha modificado correctamente");
 		return "redirect:/corte/listar";
 	}
 	
-	@GetMapping("eliminar/{id}")
-	public String eliminarEmpresa(@PathVariable(value = "id") int id) {
+	@PostMapping("eliminar/{id}")
+	public String eliminarEmpresa(@PathVariable(value = "id") int id, RedirectAttributes redirect) {
 		if(id > 0) {
 			corteService.eliminar(id);
+			redirect.addFlashAttribute("msgExito", "El corte se ha eliminado correctamente");
 		}
 		return "redirect:/corte/listar";
 	}

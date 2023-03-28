@@ -13,6 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 
 @Entity
@@ -24,24 +27,31 @@ public class Usuario {
 	private Long id;
 	
 	@Column
+	@NotEmpty(message = "Debe ingresar nombre")
 	private String nombre;
 	
 	@Column
+	@NotEmpty(message = "Debe ingresar apellido")
 	private String apellido;
 	
 	@Column
+	@Email
+	@NotEmpty(message = "Debe ingresar correo")
 	private String email;
 
 	@Column
+	@NotEmpty(message = "Debe ingresar usuario")
 	private String username;
 	
 	@Column
+	@NotEmpty(message = "Debe ingresar contraseña")
 	private String password;
 	
 	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	@JoinTable(name = "tb_user_roles", 
 		joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
 		inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+	@NotNull(message = "Debe ingresar rol")
 	private Collection<Role> roles;
 	
 	@Override

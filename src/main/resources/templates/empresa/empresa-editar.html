@@ -35,27 +35,34 @@
                                             <div class="row">
                                              <div class="form-group col-md-6">
                                                 <label for="lname">RUC:</label>
-                                                  <input type="number" th:field="*{idEmpresa}" th:value="${empresa.idEmpresa}"  th:errorclass="'form-control alert-danger'" class="form-control" readonly />
+                                                  <input type="number" th:field="*{idEmpresa}" th:value="${empresa.idEmpresa}" class="form-control" readonly />
                                                </div>
                                                <br>
                                                <div class="form-group col-md-6">
                                                   <label for="lname">NOMBRE:</label>
-                                                  <input type="text" th:field="*{descripcion}" th:errorclass="'form-control alert-danger'" class="form-control" placeholder="NOMBRE DE LA EMPRESA"/>
+                                                  <input type="text" th:field="*{descripcion}" th:errorClass="is-invalid" class="form-control" placeholder="NOMBRE DE LA EMPRESA"/>
+
+                                                  <!-- para mostrar errores -->
+                                                  <div th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}" class="invalid-feedback"></div>
                                                </div>
                                                <br>
                                                <div class="form-group col-md-12">
                                                   <label for="altconno">DIRECCION:</label>
-                                                  <input type="text" th:field="*{direccion}" th:errorclass="'form-control alert-danger'" class="form-control" placeholder="UBICACION DE LA EMPRESA"/>
+                                                  <input type="text" th:field="*{direccion}" th:errorClass="is-invalid" class="form-control" placeholder="UBICACION DE LA EMPRESA"/>
+
+                                                  <div th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}" class="invalid-feedback"></div>
                                                </div>
                                                <br>
                                                <div class="form-group col-md-6">
                                                   <label for="email">CORREO:</label>
-                                                  <input type="email" th:field="*{email}" th:errorclass="'form-control alert-danger'" class="form-control" placeholder="CORREO ELECTRONICO DE LA EMPRESA"/>
+                                                  <input type="email" th:field="*{email}" th:errorClass="is-invalid" class="form-control" placeholder="CORREO ELECTRONICO DE LA EMPRESA"/>
+
+                                                  <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="invalid-feedback"></div>
                                                </div>
                                             </div>
                                             <br>
-                                            <button type="submit" class="btn btn-primary">GUARDAR</button>
-                                            <a type="button" th:href="@{/empresa/listar}" class="btn btn-success">Volver</a>
+                                            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i>&nbsp;GUARDAR</button>
+                                            <a type="button" th:href="@{/empresa/listar}" class="btn btn-success"><i class="fa-solid fa-rotate-left"></i>&nbsp;Volver</a>
                                          </form>
                                       </div>
                                    </div>

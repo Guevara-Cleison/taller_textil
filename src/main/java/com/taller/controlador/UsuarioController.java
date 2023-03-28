@@ -1,18 +1,20 @@
 package com.taller.controlador;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.taller.entidades.Usuario;
 import com.taller.entidades.DTO.UsuarioRegistroDTO;
@@ -28,8 +30,7 @@ public class UsuarioController {
 	private UsuarioService userService;
 	
 	@Autowired
-	private RolRepository rolrepo;
-	
+	private RolRepository rolrepo;	
 	
 	
 	
@@ -54,10 +55,13 @@ public class UsuarioController {
 	}
 	
 	@PostMapping("/guardar")
-	public String guardarUsuario(@ModelAttribute("usuario") UsuarioRegistroDTO usuarioDTO) {
-		
+	public String guardarUsuario(@Validated @ModelAttribute("usuario") UsuarioRegistroDTO usuarioDTO, BindingResult bindingResult, RedirectAttributes redirect, Model modelo) {
+		if(bindingResult.hasErrors()) {
+			modelo.addAttribute("usuario", usuarioDTO);
+			return "usuario/usuario-nuevo";
+		}
 		userService.guardarAdmin(usuarioDTO);
-		
+		redirect.addFlashAttribute("msgExito", "El usuario se ha agregado correctamente");
 		return "redirect:/usuario/listar";
 	}
 	
@@ -70,17 +74,22 @@ public class UsuarioController {
 	}
 	
 	@PostMapping("/editar/{id}")
-	public String actualizarUsuario(@PathVariable(value = "id") Long id ,@ModelAttribute("usuario") Usuario usuario) {
+	public String actualizarUsuario(@PathVariable(value = "id") Long id ,@Validated @ModelAttribute("usuario") UsuarioRegistroDTO usuarioDTO, BindingResult bindingResult, RedirectAttributes redirect, Model modelo) {
 		
 		Usuario usuarioExistente = userService.buscarXid(id);
+		if(bindingResult.hasErrors()) {
+			modelo.addAttribute("usuario", usuarioDTO);
+			return "usuario/usuario-editar";
+		}
 		usuarioExistente.setId(id);
-		usuarioExistente.setNombre(usuario.getNombre());
-		usuarioExistente.setApellido(usuario.getApellido());
-		usuarioExistente.setEmail(usuario.getEmail());
-		usuarioExistente.setUsername(usuario.getUsername());
-		usuarioExistente.setRoles(usuario.getRoles());
+		usuarioExistente.setNombre(usuarioDTO.getNombre());
+		usuarioExistente.setApellido(usuarioDTO.getApellido());
+		usuarioExistente.setEmail(usuarioDTO.getEmail());
+		usuarioExistente.setUsername(usuarioDTO.getUsername());
+		//usuarioExistente.setRoles(usuarioDTO.getRoles());
 		
 		userService.actualizar(usuarioExistente);
+		redirect.addFlashAttribute("msgExito", "El usuario se ha modificado correctamente");
 		return "redirect:/usuario/listar";
 	}
 	

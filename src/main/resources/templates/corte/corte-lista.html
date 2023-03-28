@@ -61,6 +61,11 @@
                             </div>
                         </div>
                     </div>
+                    <!-- mensaje de validacion de registro -->
+                    <div th:if="${msgExito != null}" class="alert alert-success alert-dismissible">
+                        [[${msgExito}]]
+                        <button type="button" class="btn btn-close" data-bs-dismiss="alert"></button>
+                    </div>
                     <div class="card mb-4">
                         <div class="card-header">
                             <i class="fas fa-table me-1"></i>
@@ -68,9 +73,8 @@
                         </div>
                         <div class="card-body">
                             <h4 class="card-title">
-                                <a th:href="@{/corte/nuevo}" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="btn btn-primary">Agregar corte</a>
-                                <a th:href="@{/corte/exportarPDF}" class="btn btn-secondary">Exportar a PDF</a>
-                                <a th:href="@{/corte/exportarExcel}" class="btn btn-success">Exportar a Excel</a>
+                                <a th:href="@{/corte/nuevo}" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="btn btn-primary"><i class="fa-solid fa-square-plus"></i>&nbsp;Agregar corte</a>
+                                <a th:href="@{/reportes/cortes}" class="btn btn-danger" target="_blank"><i class="fa-solid fa-file-pdf"></i>&nbsp;Exportar a PDF</a>
                             </h4>
                             <table class="table table-striped">
                                 <thead>
@@ -90,7 +94,7 @@
                                 <tbody>
                                     <tr th:each="c : ${cortes}">
                                         <td th:text="${c.idCorte}"></td>
-                                        <td th:text="${c.idEmpresa}"></td>
+                                        <td th:text="${c.idEmpresa.descripcion}"></td>
                                         <td th:text="${c.op}"></td>
                                         <td th:text="${c.os}"></td>
                                         <td th:text="${c.modelo}"></td>
@@ -98,8 +102,8 @@
                                         <td th:text="${c.precio}"></td>
                                         <td th:text="${c.numGui}"></td>
                                         <td th:text="${c.fecEntrega}"></td>                                      
-                                        <td><a class="btn btn-warning btn-sm" th:href="@{/corte/editar/{id}(id=${c.idCorte})}" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Editar</a>
-                                            <a class="btn btn-danger btn-sm" th:href="@{/corte/eliminar/{id}(id=${c.idCorte})}" onclick="return confirm('¿Estas seguro de eliminar?')" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Eliminar</a>
+                                        <td><a class="btn btn-warning btn-sm" th:href="@{/corte/editar/{id}(id=${c.idCorte})}" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"><i class="fa-solid fa-pen-to-square"></i>&nbsp;Editar</a>
+                                            <a class="btn btn-danger btn-sm" th:href="@{/corte/eliminar/{id}(id=${c.idCorte})}" onclick="return confirm('¿Estas seguro de eliminar?')" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"><i class="fa-solid fa-trash-can"></i>&nbsp;Eliminar</a>
                                         </td>
                                     </tr>
                                 </tbody>

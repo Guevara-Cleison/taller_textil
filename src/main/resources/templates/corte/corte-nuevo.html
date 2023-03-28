@@ -35,63 +35,72 @@
                                     <div class="row">
                                        <div class="form-group col-md-6">
                                           <label for="inputState">EMPRESA:</label>
-                                          <select id="inputState" class="form-control" th:field="*{idEmpresa}">
+                                          <select id="inputState" class="form-control" th:field="*{idEmpresa}" th:errorClass="is-invalid">
                                              <option value="-1" selected>Seleccione...</option>
                                              <option th:each="e : ${empresas}" th:value="${e.idEmpresa}"
                                                 th:text="${e.descripcion}">
                                              </option>
                                           </select>
+                                          <!-- para mostrar errores -->
+                                          <div th:if="${#fields.hasErrors('idEmpresa')}" th:errors="*{idEmpresa}" class="invalid-feedback"></div>
                                        </div>
                                        <br>
                                        <div class="form-group col-md-6">
                                           <label for="lname">ORDEN DE PRODUCCION:</label>
-                                          <input type="number" th:field="*{op}"
-                                             th:errorclass="'form-control alert-danger'" class="form-control"
+                                          <input type="number" th:field="*{op}" th:errorClass="is-invalid" class="form-control"
                                              placeholder="ORDEN DE PRODUCCION" />
+                                             
+                                             <div th:if="${#fields.hasErrors('op')}" th:errors="*{op}" class="invalid-feedback"></div>
                                        </div>
                                        <br>
                                        <div class="form-group col-md-6">
                                           <label for="lname">OS:</label>
-                                          <input type="number" th:field="*{os}"
-                                             th:errorclass="'form-control alert-danger'" class="form-control"
+                                          <input type="number" th:field="*{os}" th:errorClass="is-invalid" class="form-control"
                                              placeholder="ORDEN DE SERVICIO" />
+
+                                             <div th:if="${#fields.hasErrors('os')}" th:errors="*{os}" class="invalid-feedback"></div>
                                        </div>
                                        <br>
                                        <div class="form-group col-md-6">
                                           <label for="lname">MODELO:</label>
-                                          <input type="text" th:field="*{modelo}"
-                                             th:errorclass="'form-control alert-danger'" class="form-control"
+                                          <input type="text" th:field="*{modelo}" th:errorClass="is-invalid" class="form-control"
                                              placeholder="MODELO DEL CORTE" />
+
+                                             <div th:if="${#fields.hasErrors('modelo')}" th:errors="*{modelo}" class="invalid-feedback"></div>
                                        </div>
                                        <div class="form-group col-md-6">
                                           <label for="lname">CANTIDAD:</label>
-                                          <input type="number" th:field="*{cantidad}"
-                                             th:errorclass="'form-control alert-danger'" class="form-control"
+                                          <input type="number" th:field="*{cantidad}" th:errorClass="is-invalid" class="form-control"
                                              placeholder="CANTIDAD DEL CORTE" />
+
+                                             <div th:if="${#fields.hasErrors('cantidad')}" th:errors="*{cantidad}" class="invalid-feedback"></div>
                                        </div>
                                        <div class="form-group col-md-6">
                                           <label for="lname">PRECIO:</label>
-                                          <input type="number" step="any" th:field="*{precio}"
-                                             th:errorclass="'form-control alert-danger'" class="form-control"
+                                          <input type="number" step="any" th:field="*{precio}" th:errorClass="is-invalid" class="form-control"
                                              placeholder="PRECIO UNITARIO" />
+
+                                             <div th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}" class="invalid-feedback"></div>
                                        </div>
                                        <div class="form-group col-md-6">
                                           <label for="lname">NUMERO DE GUIA:</label>
-                                          <input type="text" th:field="*{numGui}"
-                                             th:errorclass="'form-control alert-danger'" class="form-control"
+                                          <input type="text" th:field="*{numGui}" th:errorClass="is-invalid" class="form-control"
                                              placeholder="NUMEROS DE GUIAS RELACIONADAS" />
+
+                                             <div th:if="${#fields.hasErrors('numGui')}" th:errors="*{numGui}" class="invalid-feedback"></div>
                                        </div>
                                        <div class="form-group col-md-6">
                                           <label for="lname">FECHA DE ENTREGA:</label>
-                                          <input type="date" th:field="*{fecEntrega}"
-                                             th:errorclass="'form-control alert-danger'" class="form-control"
+                                          <input type="date" th:field="*{fecEntrega}" th:errorClass="is-invalid" class="form-control"
                                              placeholder="FECHA DE ENTREGA DEL CORTE" />
+
+                                             <div th:if="${#fields.hasErrors('fecEntrega')}" th:errors="*{fecEntrega}" class="invalid-feedback"></div>
                                        </div>
                                     </div>
                                     <br>
-                                    <button type="submit" class="btn btn-primary">GUARDAR</button>
-                                    <button type="reset" class="btn btn-secondary">Limpiar</button>
-                                    <a type="button" th:href="@{/corte/listar}" class="btn btn-success">Volver</a>
+                                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i>&nbsp;GUARDAR</button>
+                                    <button type="reset" class="btn btn-secondary"><i class="fa-solid fa-ban"></i>&nbsp;Cancelar</button>
+                                    <a type="button" th:href="@{/corte/listar}" class="btn btn-success"><i class="fa-solid fa-rotate-left"></i>&nbsp;Volver</a>
                                  </form>
                               </div>
                            </div>

@@ -26,14 +26,16 @@ CREATE TABLE `tb_cortes` (
   `id_corte` int NOT NULL AUTO_INCREMENT,
   `cantidad` int NOT NULL,
   `fec_entrega` date DEFAULT NULL,
-  `id_empresa` bigint NOT NULL,
   `modelo` varchar(255) DEFAULT NULL,
   `num_gui` varchar(255) NOT NULL,
   `op` int NOT NULL,
   `os` int NOT NULL,
   `precio` double NOT NULL,
-  PRIMARY KEY (`id_corte`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `id_empresa` bigint NOT NULL,
+  PRIMARY KEY (`id_corte`),
+  KEY `FK7jsgsuxk4di0wcohpvjjxxk6o` (`id_empresa`),
+  CONSTRAINT `FK7jsgsuxk4di0wcohpvjjxxk6o` FOREIGN KEY (`id_empresa`) REFERENCES `tb_empresas` (`id_empresa`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,6 +44,7 @@ CREATE TABLE `tb_cortes` (
 
 LOCK TABLES `tb_cortes` WRITE;
 /*!40000 ALTER TABLE `tb_cortes` DISABLE KEYS */;
+INSERT INTO `tb_cortes` VALUES (1,3025,'2023-04-05','COLOR BLACK','455-789-455',78986545,1234455,1.27,1020304050);
 /*!40000 ALTER TABLE `tb_cortes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -67,6 +70,7 @@ CREATE TABLE `tb_empresas` (
 
 LOCK TABLES `tb_empresas` WRITE;
 /*!40000 ALTER TABLE `tb_empresas` DISABLE KEYS */;
+INSERT INTO `tb_empresas` VALUES (1020304050,'TOPY TOP S.A.C','AV. Santuario, zarate 2045','recepciones@totytop.com'),(1122334455,'ADIDAS','AV. Lima 3225','adidas@adidas.com.pe'),(201000470102,'PIONER','AV. LURIGANCHO','pioner@pioner.com');
 /*!40000 ALTER TABLE `tb_empresas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -81,7 +85,7 @@ CREATE TABLE `tb_rol` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `nombre` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,7 +94,7 @@ CREATE TABLE `tb_rol` (
 
 LOCK TABLES `tb_rol` WRITE;
 /*!40000 ALTER TABLE `tb_rol` DISABLE KEYS */;
-INSERT INTO `tb_rol` VALUES (1,'ROLE_ADMIN'),(2,'ROLE_USER');
+INSERT INTO `tb_rol` VALUES (1,'ROLE_ADMIN'),(2,'ROLE_USER'),(3,'ROLE_USER');
 /*!40000 ALTER TABLE `tb_rol` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -117,7 +121,7 @@ CREATE TABLE `tb_user_roles` (
 
 LOCK TABLES `tb_user_roles` WRITE;
 /*!40000 ALTER TABLE `tb_user_roles` DISABLE KEYS */;
-INSERT INTO `tb_user_roles` VALUES (1,1);
+INSERT INTO `tb_user_roles` VALUES (1,1),(2,3);
 /*!40000 ALTER TABLE `tb_user_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -136,7 +140,7 @@ CREATE TABLE `tb_usuario` (
   `password` varchar(255) DEFAULT NULL,
   `username` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -145,7 +149,7 @@ CREATE TABLE `tb_usuario` (
 
 LOCK TABLES `tb_usuario` WRITE;
 /*!40000 ALTER TABLE `tb_usuario` DISABLE KEYS */;
-INSERT INTO `tb_usuario` VALUES (1,'ADMINISTRADOR','admin@gmail.com','ADMINISTRADOR','$2a$10$iT9PYdfYWRejZUci4n3AjupsgWjUw0C1o9VJfJiFjeGtMdsubHJM2','admin');
+INSERT INTO `tb_usuario` VALUES (1,'ADMINISTRADOR','admin@gmai.com','ADMINISTRADOR','$2a$10$iT9PYdfYWRejZUci4n3AjupsgWjUw0C1o9VJfJiFjeGtMdsubHJM2','admin'),(2,'Guevara Fustamante','cleison@gmail.com','Jhan Cleison','$2a$10$AR8bkbFazoUiXV01n/MTq.hbxne0680yv6LvqyCMikbSvwFhRjXR6','cleisonGF');
 /*!40000 ALTER TABLE `tb_usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -162,4 +166,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-17 18:34:49
+-- Dump completed on 2023-03-28 11:10:35

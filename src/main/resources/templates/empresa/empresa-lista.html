@@ -61,6 +61,11 @@
                             </div>
                         </div>
                     </div>
+                    <!-- mensaje de validacion de registro -->
+                    <div th:if="${msgExito != null}" class="alert alert-success alert-dismissible">
+                        [[${msgExito}]]
+                        <button type="button" class="btn btn-close" data-bs-dismiss="alert"></button>
+                    </div>
                     <div class="card mb-4">
                         <div class="card-header">
                             <i class="fas fa-table me-1"></i>
@@ -68,9 +73,8 @@
                         </div>
                         <div class="card-body">
                             <h4 class="card-title">
-                                <a th:href="@{/empresa/nuevo}" class="btn btn-primary" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Agregar empresa</a>
-                                <a th:href="@{/empresa/exportarPDF}" class="btn btn-secondary">Exportar a PDF</a>
-                                <a th:href="@{/empresa/exportarExcel}" class="btn btn-success">Exportar a Excel</a>
+                                <a th:href="@{/empresa/nuevo}" class="btn btn-primary" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"><i class="fa-solid fa-square-plus"></i>&nbsp;Agregar empresa</a>
+                                <a th:href="@{/reportes/empresas}" class="btn btn-danger" target="_blank"><i class="fa-solid fa-file-pdf"></i>&nbsp;Exportar a PDF</a>
                             </h4>
                             <table class="table table-striped">
                                 <thead>
@@ -88,8 +92,8 @@
                                         <td th:text="${e.descripcion}"></td>
                                         <td th:text="${e.email}"></td>
                                         <td th:text="${e.direccion}"></td>                                     
-                                        <td><a class="btn btn-warning btn-sm" th:href="@{/empresa/editar/{id}(id=${e.idEmpresa})}" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Editar</a>
-                                            <a class="btn btn-danger btn-sm" th:href="@{/empresa/eliminar/{id}(id=${e.idEmpresa})}" onclick="return confirm('¿Estas seguro de eliminar?')" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Eliminar</a>
+                                        <td><a class="btn btn-warning btn-sm" th:href="@{/empresa/editar/{id}(id=${e.idEmpresa})}" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"><i class="fa-solid fa-pen-to-square"></i>&nbsp; Editar</a>
+                                        <a class="btn btn-danger btn-sm" th:href="@{/empresa/eliminar/{id}(id=${e.idEmpresa})}" onclick="return confirm('¿Estas seguro de eliminar?')" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"><i class="fa-solid fa-trash-can"></i>&nbsp;Eliminar</a>
                                         </td>
                                     </tr>
                                 </tbody>

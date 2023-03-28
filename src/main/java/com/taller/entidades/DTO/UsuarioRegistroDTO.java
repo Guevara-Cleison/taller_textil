@@ -1,17 +1,26 @@
 package com.taller.entidades.DTO;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
 public class UsuarioRegistroDTO {
 
 	private Long id;
 
+	@NotEmpty(message = "Debe ingresar nombre")
 	private String nombre;
 
+	@NotEmpty(message = "Debe ingresar apellido")
 	private String apellido;
 
+	@Email
+	@NotEmpty(message = "Debe ingresar correo")
 	private String email;
 
+	@NotEmpty(message = "Debe ingresar usuario")
 	private String username;
 
+	@NotEmpty(message = "Debe ingresar contraseña")
 	private String password;
 
 	public UsuarioRegistroDTO(String nombre, String apellido, String email, String username, String password) {

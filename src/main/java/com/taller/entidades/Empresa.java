@@ -12,17 +12,17 @@ import javax.validation.constraints.NotNull;
 public class Empresa {
 
 	@Id
-	@NotNull
+	@NotNull(message = "Ingresar RUC")
 	private Long idEmpresa;
 
-	@NotEmpty
+	@NotEmpty(message = "Debe ingresar nombre")
 	private String descripcion;
 
-	@NotEmpty
+	@NotEmpty(message = "Debe ingresar correo")
 	@Email
 	private String email;
 
-	@NotEmpty
+	@NotEmpty(message = "Debe ingresar dirección")
 	private String direccion;
 
 	public Empresa() {

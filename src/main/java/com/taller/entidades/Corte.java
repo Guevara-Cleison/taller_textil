@@ -6,9 +6,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -22,35 +27,38 @@ public class Corte {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idCorte;
 
-	@NotNull
-	private Long idEmpresa;
+	@ManyToOne
+	@JoinColumn(name = "idEmpresa")
+	@NotNull(message = "Debe ingresar empresa")
+	private Empresa idEmpresa;
 
-	@NotNull
+	@Min(value = 1, message = "Debe ingresar op")
 	private int op;
 
-	@NotNull
+	@Min(value = 1, message = "Debe ingresar os")
 	private int os;
 
-	@NotEmpty
+	@NotEmpty(message = "Debe ingresar modelo")
 	private String modelo;
 
-	@NotNull
+	@Min(value = 1, message = "Debe ingresar cantidad")
 	private int cantidad;
 
-	@NotNull
+	@DecimalMin(value = "0.1", message = "Debe ingresar precio")
 	private double precio;
 
-	@NotNull
+	@NotBlank(message = "Debe ingresar numero de Guía")
 	private String numGui;
 
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@NotNull(message = "Debe ingresar fecha de entrega")
 	private Date fecEntrega;
 
 	public Corte() {
 	}
 
-	public Corte(int idCorte, Long idEmpresa, int op, int os, String modelo, int cantidad, double precio, String numGui,
+	public Corte(int idCorte, Empresa idEmpresa, int op, int os, String modelo, int cantidad, double precio, String numGui,
 			Date fecEntrega) {
 		this.idCorte = idCorte;
 		this.idEmpresa = idEmpresa;
@@ -71,11 +79,11 @@ public class Corte {
 		this.idCorte = idCorte;
 	}
 
-	public Long getIdEmpresa() {
+	public Empresa getIdEmpresa() {
 		return idEmpresa;
 	}
 
-	public void setIdEmpresa(Long idEmpresa) {
+	public void setIdEmpresa(Empresa idEmpresa) {
 		this.idEmpresa = idEmpresa;
 	}
 
